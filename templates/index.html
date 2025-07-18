@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Astro Exposure Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="theme" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📷 Astro Exposure Calculator</h1>
+        <button id="toggleTheme">🌓 Theme</button>
+    </div>
+
+    <form method="POST">
+        <h2>Test Shot</h2>
+        <div class="input-group">
+            <label>Aperture (f/):</label>
+            <input type="number" step="0.1" name="f1" required>
+        </div>
+        <div class="input-group">
+            <label>ISO:</label>
+            <input type="number" name="iso1" required>
+        </div>
+        <div class="input-group">
+            <label>Shutter Speed (s):</label>
+            <input type="number" step="0.1" name="t1" required>
+        </div>
+
+        <h2>Target Settings (Leave one blank)</h2>
+        <div class="input-group">
+            <label>Aperture (f/):</label>
+            <input type="number" step="0.1" name="f2">
+        </div>
+        <div class="input-group">
+            <label>ISO:</label>
+            <input type="number" name="iso2">
+        </div>
+        <div class="input-group">
+            <label>Shutter Speed (s):</label>
+            <input type="number" step="0.1" name="t2">
+        </div>
+
+        <button type="submit">📸 Calculate</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h3>Result:</h3>
+        <p>{{ result }}</p>
+    </div>
+    {% endif %}
+
+    {% if advice %}
+    <div class="advice">
+        <h3>Advice:</h3>
+        <p>{{ advice|safe }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    const btn = document.getElementById("toggleTheme");
+    const theme = document.getElementById("theme");
+    let isDark = true;
+
+    btn.addEventListener("click", () => {
+        isDark = !isDark;
+        theme.href = isDark
+            ? "{{ url_for('static', filename='style.css') }}"
+            : "{{ url_for('static', filename='light.css') }}";
+    });
+</script>
+</body>
+</html>
